@@ -1,13 +1,38 @@
+# Load the InterMine library. If it's not already installed, visit
+# https://bioconductor.org/packages/release/bioc/html/InterMineR.html
 library(InterMineR)
 
-# Begin by initialising against an InterMine - in this case HumanMine
-im <- initInterMine(mine=listMines()["HumanMine"], "j1q44e90S1Q4i6RekaB8")
+# We want to query human data - let's look and see what InterMines are available: 
+listMines()
 
-# Fetch a public Gene list from HumanMine
-data("PL_DiabetesGenes")
+# Okay, let's select HumanMine from the list:
+humanMine <- listMines()["HumanMine"]
+
+# let's take a peek what's stored inside the humanmine variable... 
+humanMine
+
+# Begin by initialising against an InterMine - in this case HumanMine
+im <- initInterMine(mine=humanMine, "j1q44e90S1Q4i6RekaB8")
+
+# Now, let's define a new query. We want a list of Gene ids, and 
+# we only want to see ones that are IN the humanmine list called
+# "PL_Pax6_Targets"
+PL_Pax6_TargetsQuery <- setQuery( 
+  # here we're choosing which columns of data we'd like to see
+  select = c("Gene.primaryIdentifier"),
+  # set the logic for constraints (see the function for this to make sense)
+  where = setConstraints(
+    paths = c("Gene"),
+    operators = c("IN"),
+    values = list("PL_Pax6_Targets")
+  )
+)
+
+# Now we have the query set up the way we want, let's actually *run* the query! 
+Pax6GenesResults <- runQuery(im,PL_Pax6_TargetsQuery)
 
 # preview the data in the list we've just loaded (show me its 'head')
-head(PL_DiabetesGenes)
+head(Pax6GenesResults)
 
 # Create a new query
 expressedPancreas = newQuery(
@@ -43,7 +68,6 @@ pancreasConstraint = setConstraints(
 
 # Add the constraint to our expressed pancreas query (previously we just _defined_ the constraint)
 expressedPancreas$where <- pancreasConstraint
-
 
 # Now we have the query set up the way we want, let's actually *run* the query! 
 query_results <-  runQuery(im = im, qry = expressedPancreas)
