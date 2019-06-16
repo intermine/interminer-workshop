@@ -25,4 +25,4 @@ jupyter notebook
 
 ## Questions, queries, comments?
 
-Feel free to [open an issue](issues) or [contact us](http://intermine.org/contact/)
+Feel free to [open an issue](https://github.com/intermine/interminer-workshop/issues) or [contact us](http://intermine.org/contact/)
