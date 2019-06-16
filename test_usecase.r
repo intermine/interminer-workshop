@@ -29,10 +29,10 @@ PL_Pax6_TargetsQuery <- setQuery(
 )
 
 # Now we have the query set up the way we want, let's actually *run* the query! 
-Pax6GenesResults <- runQuery(im,PL_Pax6_TargetsQuery)
+Pax6TargetsResults <- runQuery(im,PL_Pax6_TargetsQuery)
 
 # preview the data in the list we've just loaded (show me its 'head')
-head(Pax6GenesResults)
+head(Pax6TargetsResults)
 
 # Create a new query
 expressedPancreas = newQuery(
@@ -50,7 +50,10 @@ expressedPancreas = newQuery(
 # If we ran the query above, it'd show us *all* genes and their expression. 
 # Let's narrow it down a little by constraining it to genes that are of interest
 pancreasConstraint = setConstraints(
-  paths = c("Gene", "Gene.proteinAtlasExpression.level", "Gene.proteinAtlasExpression.level", "Gene.proteinAtlasExpression.tissue.name"),
+  paths = c("Gene", 
+            "Gene.proteinAtlasExpression.level", 
+            "Gene.proteinAtlasExpression.level", 
+            "Gene.proteinAtlasExpression.tissue.name"),
   operators = c("IN", rep("=", 2), "="),
   # each constraint is automatically given a code, allowing us to manipulate the 
   # logic for the constraint. 
