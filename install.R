@@ -1,3 +1,4 @@
+install.packages("XML")
 install.packages("BiocManager")
 BiocManager::install("InterMineR")
 BiocManager::install("GeneAnswers")
